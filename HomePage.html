@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXAMMATE - Online Education Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: #000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .image-logo img {
+            height: 45px;
+         /*   filter: brightness(0) invert(1); */
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons button {
+            background: none;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .nav-buttons button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Menu Slider */
+        .menu-slider {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: #000;
+            padding: 2rem;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9999;
+        }
+
+        .menu-slider.active {
+            right: 0;
+        }
+
+        .menu-slider ul {
+            list-style: none;
+            margin-top: 60px;
+        }
+
+        .menu-slider ul li {
+            color: #fff;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .menu-slider ul li:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(10px);
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .menu-close:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+        }
+
+        .introduction-text {
+            text-align: center;
+            padding: 0 5%;
+            margin: 120px auto 20px;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        .introduction-text-small {
+            text-align: center;
+            color: #7f8c8d;
+            margin: 0 auto 50px;
+            padding: 0 5%;
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-button {
+            background: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .image-button img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .image-button button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            width: 100%;
+        }
+
+        .image-button:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .image-button:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Promotion Section */
+        .promotion {
+            max-width: 1200px;
+            margin: 4rem auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .promotion img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* Courses Section */
+        .fetured-courses {
+            padding: 4rem 5%;
+            background: #fff;
+        }
+
+        .fetured-courses h3 {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-container {
+            background: #fff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .course-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .course-container img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .course-container h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-container h4 {
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-container button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .course-container button:hover {
+            opacity: 0.9;
+        }
+
+        /* Auth Buttons */
+        .login-reg-btn {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 5rem auto;
+            max-width: 1200px;
+            padding: 0 5%;
+        }
+
+        .login-reg-btn > div {
+            flex: 1;
+            text-align: center;
+            padding: 3rem;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-reg-btn button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1.5rem;
+        }
+
+        .login-reg-btn button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            color: #fff;
+            text-align: center;
+            padding: 3rem;
+            margin-top: 5rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .introduction-text {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-reg-btn {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        
+        <div class="logo-container">
+            <div class="image-logo"><img src="logo~2.jpg" alt="Logo"></div>
+            <div class="logo">EXAMMATE</div>
+        </div>
+        
+        <div class="nav-buttons">
+            <button onclick="toggleMenu()">☰ Menu</button>
+        </div>
+    </header>
+
+    <div class="menu-slider" id="menuSlider">
+        <button class="menu-close" onclick="toggleMenu()">&times;</button>
+        <ul>
+            <li>হোম</li>
+            <li>কোর্সসমূহ</li>
+            <li>আমাদের সম্পর্কে</li>
+            <li>যোগাযোগ</li>
+            <li>লগইন</li>
+            <li>রেজিস্ট্রেশন</li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="introduction-text">
+            <h3>WELCOME TO EXAMMATE</h3>
+        </div>
+        <div class="introduction-text-small">
+    <p style="direction: ltr; text-align: left;">
+    আমাদের বিস্তৃত শিক্ষামূলক প্ল্যাটফর্মের সাথে হাজারো সফল শিক্ষার্থীদের সাথে যোগ দিন। 
+</p>
+        </div>
+
+        <div class="promotion">
+            <img src="promotion.jpg" alt="Promotion">
+        </div>
+
+        <div class="action-buttons">
+            <div class="image-button">
+                <i class="fas fa-book-open fa-3x"></i>
+                <button>Explore Courses</button>
+            </div>
+            <div class="image-button">
+                <i class="fab fa-telegram fa-3x"></i>
+                <button>Join Telegram</button>
+            </div>
+            <div class="image-button">
+                <i class="fas fa-user-shield fa-3x"></i>
+                <button>Admin Panel</button>
+            </div>
+            <div class="image-button">
+                <i class="fas fa-store fa-3x"></i>
+                <button>Visit Store</button>
+            </div>
+        </div>
+
+        <section class="fetured-courses">
+            <h3>Featured Courses</h3>
+            <div class="courses-grid">
+                <div class="course-container">
+                    <img src="course.jpg" alt="Course">
+                    <h3>AgriCluster</h3>
+                    <h4><del>$99</del> $69</h4>
+                    <button>Enroll Now</button>
+                </div>
+                <div class="course-container">
+                    <img src="course1.jpg" alt="Course">
+                    <h3>Professional Coding</h3>
+                    <h4><del>$149</del> $99</h4>
+                    <button>Enroll Now</button>
+                </div>
+                <div class="course-container">
+                    <img src="course2.jpg" alt="Course">
+                    <h3>Business Management</h3>
+                    <h4><del>$199</del> $149</h4>
+                    <button>Enroll Now</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="login-reg-btn">
+            <div class="login">
+                <p>NEW HERE?</p>
+                <button>Create Account</button>
+            </div>
+            <div class="login">
+                <p>RETURNING USER?</p>
+                <button>Sign In</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        ©2025 EXAMMATE - All Rights Reserved
+    </footer>
+
+    <script>
+        // Menu Toggle
+        function toggleMenu() {
+            document.getElementById('menuSlider').classList.toggle('active');
+        }
+
+        // Anime.js Animations
+        anime({
+            targets: '.header',
+            opacity: [0, 1],
+            translateY: [-50, 0],
+            duration: 1000,
+            easing: 'easeOutExpo'
+        });
+
+        anime({
+            targets: ['.introduction-text', '.introduction-text-small'],
+            opacity: [0, 1],
+            translateY: [50, 0],
+            delay: 300,
+            duration: 800,
+            easing: 'easeOutExpo'
+        });
+
+        anime({
+            targets: '.image-button',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            delay: anime.stagger(100),
+            duration: 800,
+            easing: 'easeOutExpo'
+        });
+
+        anime({
+            targets: '.course-container',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            delay: anime.stagger(100),
+            duration: 800,
+            easing: 'easeOutExpo'
+        });
+    </script>
+</body>
+</html>
